@@ -1,4 +1,7 @@
+#include "common/stdio.h"
 #include "kernel.h"
+
+extern char __bss[], __bss_end[], __stack_top[];
 
 struct sbiret sbi_call(long arg0, long arg1, long arg2, long arg3, long arg4,
                        long arg5, long fid, long eid) {
@@ -19,17 +22,24 @@ struct sbiret sbi_call(long arg0, long arg1, long arg2, long arg3, long arg4,
   return (struct sbiret){.error = a0, .value = a1};
 }
 
-void putchar(char ch) {
-  sbi_call(ch, 0, 0, 0, 0, 0, 0, 1 /* Console Putchar */);
+int kernel_putchar(int c) {
+  sbi_call(c, 0, 0, 0, 0, 0, 0, 1);
+  return c;
 }
 
-__attribute__((section(".text.boot"))) void main(void) {
-  const char *s = "\n\nHello World!\n";
-  for (int i = 0; s[i] != '\0'; i++) {
-    putchar(s[i]);
-  }
+void kernel_main(void) {
+  printf("\n\nHello %s\n", "World!");
+  printf("1 + 2 = %d, %x\n", 1 + 2, 0x1234abcd);
 
   for (;;) {
     __asm__ __volatile__("wfi");
   }
+}
+
+__attribute__((section(".text.boot"))) __attribute__((naked)) void boot(void) {
+  __asm__ __volatile__(
+      "mv sp, %[stack_top]\n"
+      "j kernel_main\n"
+      :
+      : [stack_top] "r"(__stack_top));
 }

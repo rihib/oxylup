@@ -1,4 +1,4 @@
-ENTRY(main)
+ENTRY(boot)
 
 SECTIONS {
   . = 0x80200000;
@@ -17,6 +17,12 @@ SECTIONS {
   }
 
   .bss : ALIGN(4) {
+    __bss = .;
     *(.bss .bss.* .sbss .sbss.*);
+    __bss_end = .;
   }
+
+  . = ALIGN(4);
+  . += 128 * 1024;
+  __stack_top = .;
 }

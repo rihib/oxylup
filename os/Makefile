@@ -1,9 +1,14 @@
+C = common
 K = kernel
+
+C_SRCS = \
+	$C/stdio.c
 K_SRCS = \
 	$K/main.c
 
+C_OBJS = $(C_SRCS:.c=.o)
 K_OBJS = $(K_SRCS:.c=.o)
-DEPS = $(K_OBJS:.o=.d)
+DEPS = $(C_OBJS:.o=.d) $(K_OBJS:.o=.d)
 
 -include $(DEPS)
 
@@ -14,6 +19,7 @@ CDEBUGFLAGS = \
 	-gdwarf-5
 CFLAGS = \
 	-ffreestanding \
+	-I. \
 	-nostdlib \
 	-O2 \
 	-std=c2x \
@@ -51,7 +57,7 @@ run: $K/kernel.elf
 	$(QEMU) $(QEMUOPTS) -kernel $K/kernel.elf
 
 $K/kernel.elf: $(K_SRCS)
-	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(K_SRCS)
+	$(CC) $(CFLAGS) $(LDFLAGS) -o $@ $(C_SRCS) $(K_SRCS)
 
 clean:
-	rm -f $K/kernel.elf $K/kernel.map $K/*.o $K/*.d
+	rm -f $K/kernel.elf $K/kernel.map $C/*.o $C/*.d $K/*.o $K/*.d

@@ -2,7 +2,7 @@
 
 ```bash
 % make DEBUG=1
-clang -ffreestanding -nostdlib -O2 -std=c2x --target=riscv32 -Wall -Werror -Wextra -ggdb3 -gdwarf-5 -Wl,-Tkernel/kernel.ld -z max-page-size=4096 -Wl,-Map=kernel/kernel.map -o kernel/kernel.elf kernel/main.c
+clang -ffreestanding -I. -nostdlib -O2 -std=c2x --target=riscv32 -Wall -Werror -Wextra -ggdb3 -gdwarf-5 -Wl,-Tkernel/kernel.ld -z max-page-size=4096 -Wl,-Map=kernel/kernel.map -o kernel/kernel.elf common/stdio.c kernel/main.c
 qemu-system-riscv32 -bios default -machine virt -nographic --no-reboot -serial mon:stdio -kernel kernel/kernel.elf
 
 OpenSBI v1.3.1
@@ -63,56 +63,6 @@ Boot HART MEDELEG         : 0x00f0b509
 
 
 Hello World!
-QEMU 8.2.1 monitor - type 'help' for more information
-(qemu) info registers
-
-CPU#0
- V      =   0
- pc       80200034
- mhartid  00000000
- mstatus  80006080
- mstatush 00000000
- hstatus  00000000
- vsstatus 00000000
- mip      00000000
- mie      00000008
- mideleg  00001666
- hideleg  00000000
- medeleg  00f0b509
- hedeleg  00000000
- mtvec    80000550
- stvec    80200000
- vstvec   00000000
- mepc     80200024
- sepc     00000000
- vsepc    00000000
- mcause   00000009
- scause   00000000
- vscause  00000000
- mtval    00000000
- stval    00000000
- htval    00000000
- mtval2   00000000
- mscratch 80026000
- sscratch 00000000
- satp     00000000
- x0/zero  00000000 x1/ra    8000ae28 x2/sp    80025f10 x3/gp    00000000
- x4/tp    80026000 x5/t0    80200060 x6/t1    00000000 x7/t2    00001000
- x8/s0    80025f30 x9/s1    00000001 x10/a0   00000000 x11/a1   00000000
- x12/a2   00000000 x13/a3   00000000 x14/a4   00000000 x15/a5   00000000
- x16/a6   00000000 x17/a7   00000001 x18/s2   80200000 x19/s3   00000000
- x20/s4   87e00000 x21/s5   00000000 x22/s6   80006800 x23/s7   80020024
- x24/s8   00002000 x25/s9   800222f8 x26/s10  00000000 x27/s11  00000000
- x28/t3   616d6569 x29/t4   00000000 x30/t5   0000001c x31/t6   00000000
- f0/ft0   ffffffff00000000 f1/ft1   ffffffff00000000 f2/ft2   ffffffff00000000 f3/ft3   ffffffff00000000
- f4/ft4   ffffffff00000000 f5/ft5   ffffffff00000000 f6/ft6   ffffffff00000000 f7/ft7   ffffffff00000000
- f8/fs0   ffffffff00000000 f9/fs1   ffffffff00000000 f10/fa0  ffffffff00000000 f11/fa1  ffffffff00000000
- f12/fa2  ffffffff00000000 f13/fa3  ffffffff00000000 f14/fa4  ffffffff00000000 f15/fa5  ffffffff00000000
- f16/fa6  ffffffff00000000 f17/fa7  ffffffff00000000 f18/fs2  ffffffff00000000 f19/fs3  ffffffff00000000
- f20/fs4  ffffffff00000000 f21/fs5  ffffffff00000000 f22/fs6  ffffffff00000000 f23/fs7  ffffffff00000000
- f24/fs8  ffffffff00000000 f25/fs9  ffffffff00000000 f26/fs10 ffffffff00000000 f27/fs11 ffffffff00000000
- f28/ft8  ffffffff00000000 f29/ft9  ffffffff00000000 f30/ft10 ffffffff00000000 f31/ft11 ffffffff00000000
-(qemu) q
-rihib@rihibs-MacBook-Pro os % llvm-addr2line -e kernel/kernel.elf 80200034
-/Users/rihib/dev/oxylup/os/kernel/main.c:32
+1 + 2 = 3, 1234abcd
+QEMU: Terminated
 ```
