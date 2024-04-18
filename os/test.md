@@ -64,5 +64,6 @@ Boot HART MEDELEG         : 0x00f0b509
 
 Hello World!
 1 + 2 = 3, 1234abcd
+PANIC: kernel/main.c:36: booted!
 QEMU: Terminated
 ```
