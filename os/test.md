@@ -60,12 +60,15 @@ Boot HART PMP Address Bits: 32
 Boot HART MHPM Count      : 16
 Boot HART MIDELEG         : 0x00001666
 Boot HART MEDELEG         : 0x00f0b509
+
+
+Hello World!
 QEMU 8.2.1 monitor - type 'help' for more information
 (qemu) info registers
 
 CPU#0
  V      =   0
- pc       80200000
+ pc       80200034
  mhartid  00000000
  mstatus  80006080
  mstatush 00000000
@@ -80,10 +83,10 @@ CPU#0
  mtvec    80000550
  stvec    80200000
  vstvec   00000000
- mepc     80200000
+ mepc     80200024
  sepc     00000000
  vsepc    00000000
- mcause   00000003
+ mcause   00000009
  scause   00000000
  vscause  00000000
  mtval    00000000
@@ -94,10 +97,10 @@ CPU#0
  sscratch 00000000
  satp     00000000
  x0/zero  00000000 x1/ra    8000ae28 x2/sp    80025f10 x3/gp    00000000
- x4/tp    80026000 x5/t0    00000001 x6/t1    00000002 x7/t2    00001000
- x8/s0    80025f30 x9/s1    00000001 x10/a0   00000000 x11/a1   87e00000
- x12/a2   00000007 x13/a3   00000019 x14/a4   00000000 x15/a5   00000001
- x16/a6   00000001 x17/a7   00000005 x18/s2   80200000 x19/s3   00000000
+ x4/tp    80026000 x5/t0    80200060 x6/t1    00000000 x7/t2    00001000
+ x8/s0    80025f30 x9/s1    00000001 x10/a0   00000000 x11/a1   00000000
+ x12/a2   00000000 x13/a3   00000000 x14/a4   00000000 x15/a5   00000000
+ x16/a6   00000000 x17/a7   00000001 x18/s2   80200000 x19/s3   00000000
  x20/s4   87e00000 x21/s5   00000000 x22/s6   80006800 x23/s7   80020024
  x24/s8   00002000 x25/s9   800222f8 x26/s10  00000000 x27/s11  00000000
  x28/t3   616d6569 x29/t4   00000000 x30/t5   0000001c x31/t6   00000000
@@ -110,6 +113,6 @@ CPU#0
  f24/fs8  ffffffff00000000 f25/fs9  ffffffff00000000 f26/fs10 ffffffff00000000 f27/fs11 ffffffff00000000
  f28/ft8  ffffffff00000000 f29/ft9  ffffffff00000000 f30/ft10 ffffffff00000000 f31/ft11 ffffffff00000000
 (qemu) q
-% llvm-addr2line -e kernel/kernel.elf 80200000
-/Users/rihib/dev/oxylup/os/kernel/main.c:2
+rihib@rihibs-MacBook-Pro os % llvm-addr2line -e kernel/kernel.elf 80200034
+/Users/rihib/dev/oxylup/os/kernel/main.c:32
 ```
